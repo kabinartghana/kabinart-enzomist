@@ -12,3 +12,7 @@ build-backend = "flit_core.buildapi"
 
 [tool.flit.module]
 name = "enzomist"
+
+[tool.bench.frappe-dependencies]
+frappe = ">=16.0.0"
+erpnext = ">=16.0.0"
