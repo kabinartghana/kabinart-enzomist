@@ -57,9 +57,14 @@ def check_refill_alerts():
     """
 
     # Send to System Manager / Georgio
+    users = frappe.get_all(
+        "Has Role",
+        filters={"role": ["in", ["System Manager", "Sales User"]], "parenttype": "User"},
+        pluck="parent"
+    )
     recipients = frappe.get_all(
         "User",
-        filters={"role_profile_name": ["in", ["System Manager", "Sales User"]], "enabled": 1},
+        filters={"name": ["in", users or [""]], "enabled": 1, "user_type": "System User"},
         pluck="email"
     )
 
