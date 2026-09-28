@@ -32,21 +32,53 @@ class DeviceRefill(Document):
         if not warehouse:
             frappe.throw("Enzomist Main Warehouse not found. Please create it in Stock > Warehouses.")
 
-        # Create material consumption Stock Entry
+        # Work out the quantity in a unit the item understands.
+        # Oil is refilled in mL; the item may be stocked in Nos (bottles), Litre or mL.
+        item = frappe.get_doc("Item", placement.scent_oil_item)
+        ml_uom = next((u for u in item.uoms if u.uom in ("Millilitre", "ml", "mL")), None)
+        if item.stock_uom in ("Millilitre", "ml", "mL"):
+            uom, qty = item.stock_uom, self.amount_refilled_ml
+        elif ml_uom:
+            uom, qty = ml_uom.uom, self.amount_refilled_ml
+        elif item.stock_uom == "Litre":
+            uom, qty = "Litre", self.amount_refilled_ml / 1000
+        else:
+            # Refill is still recorded; stock is simply not deducted until the item has a mL conversion.
+            frappe.msgprint(
+                f"Refill saved, but stock was NOT deducted: item {item.name} is stocked in {item.stock_uom}. "
+                f"Add a 'Millilitre' row to its UOM Conversion table (e.g. 1 Millilitre = 1/150 Nos for a 150 mL bottle).",
+                indicator="orange", alert=True
+            )
+            return
+
+        # Material Issue: takes the oil out of the Enzomist warehouse
         se = frappe.new_doc("Stock Entry")
-        se.stock_entry_type = "Material Consumption for Manufacture"
-        se.purpose = "Material Consumption for Manufacture"
+        se.stock_entry_type = "Material Issue"
+        se.purpose = "Material Issue"
         se.remarks = f"Refill: {self.name} | Placement: {self.placement} | QB Ref: {self.qb_estimate_no or 'N/A'}"
 
         se.append("items", {
             "item_code": placement.scent_oil_item,
-            "qty": self.amount_refilled_ml / 1000,  # convert mL to L if UOM is litres
-            "uom": "mL",
+            "qty": qty,
+            "uom": uom,
             "s_warehouse": warehouse,
         })
 
-        se.insert(ignore_permissions=True)
-        se.submit()
+        # If stock can't be deducted (e.g. not enough oil in stock), keep the refill
+        # and tell the user, rather than blocking the refill record.
+        frappe.db.savepoint("enzomist_refill_stock")
+        try:
+            se.insert(ignore_permissions=True)
+            se.submit()
+        except Exception as e:
+            frappe.db.rollback(save_point="enzomist_refill_stock")
+            frappe.clear_messages()
+            frappe.log_error(title=f"Enzomist refill {self.name}: stock not deducted")
+            frappe.msgprint(
+                f"Refill saved, but stock was NOT deducted: {frappe.utils.strip_html(str(e))}",
+                indicator="orange", alert=True
+            )
+            return
 
         frappe.msgprint(
             f"Stock Entry {se.name} created — {self.amount_refilled_ml}mL deducted from {placement.scent_oil_item}",
