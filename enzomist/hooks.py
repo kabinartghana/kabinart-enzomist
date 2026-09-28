@@ -7,11 +7,8 @@ app_license = "MIT"
 app_version = "0.0.1"
 
 # Document Events
-doc_events = {
-    "Device Refill": {
-        "on_submit": "enzomist.device_refill.doctype.device_refill.device_refill.on_submit"
-    }
-}
+# Device Refill.on_submit is defined on the DocType class itself —
+# no doc_events hook needed (the old hook pointed to a function that did not exist).
 
 # Scheduled Tasks
 scheduler_events = {
