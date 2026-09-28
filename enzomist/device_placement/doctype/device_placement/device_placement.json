@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-09-28 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "device_model",
+  "scent_oil_item",
+  "serial_tag",
+  "install_date",
+  "commercial_terms",
+  "section_break_settings",
+  "spray_on_seconds",
+  "spray_off_seconds",
+  "hours_per_day",
+  "days_per_week",
+  "section_break_prediction",
+  "last_refill_date",
+  "predicted_refill_date",
+  "alert_days_before",
+  "alert_enabled",
+  "data_quality_warning",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ENZ-PL-.YYYY.-"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "device_model",
+   "fieldtype": "Link",
+   "label": "Device Model",
+   "options": "Aroma Device",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "scent_oil_item",
+   "fieldtype": "Link",
+   "label": "Scent / Oil (Stock Item)",
+   "options": "Item",
+   "reqd": 1,
+   "description": "The bulk oil jug that will be consumed on every refill log."
+  },
+  {
+   "fieldname": "serial_tag",
+   "fieldtype": "Data",
+   "label": "Serial / Asset Tag"
+  },
+  {
+   "fieldname": "install_date",
+   "fieldtype": "Date",
+   "label": "Install Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "commercial_terms",
+   "fieldtype": "Select",
+   "label": "Commercial Terms",
+   "options": "\nOwned outright\nRental\nInstalment",
+   "reqd": 1,
+   "description": "Must be set explicitly — no default."
+  },
+  {
+   "fieldname": "section_break_settings",
+   "fieldtype": "Section Break",
+   "label": "Device Settings"
+  },
+  {
+   "fieldname": "spray_on_seconds",
+   "fieldtype": "Int",
+   "label": "Spray ON (seconds)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "spray_off_seconds",
+   "fieldtype": "Int",
+   "label": "Spray OFF (seconds)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hours_per_day",
+   "fieldtype": "Float",
+   "label": "Hours per Day",
+   "reqd": 1
+  },
+  {
+   "fieldname": "days_per_week",
+   "fieldtype": "Float",
+   "label": "Days per Week",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_prediction",
+   "fieldtype": "Section Break",
+   "label": "Refill Prediction"
+  },
+  {
+   "fieldname": "last_refill_date",
+   "fieldtype": "Date",
+   "label": "Last Refill Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "predicted_refill_date",
+   "fieldtype": "Date",
+   "label": "Predicted Refill Date",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "alert_days_before",
+   "fieldtype": "Int",
+   "label": "Alert Days Before Refill",
+   "default": "7"
+  },
+  {
+   "fieldname": "alert_enabled",
+   "fieldtype": "Check",
+   "label": "Alert Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "data_quality_warning",
+   "fieldtype": "Small Text",
+   "label": "Data Quality Warning",
+   "read_only": 1,
+   "description": "Populated automatically from the device model."
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-28 00:00:00",
+ "modified_by": "Administrator",
+ "module": "Device Placement",
+ "name": "Device Placement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Sales User"
+  }
+ ],
+ "sort_field": "predicted_refill_date",
+ "sort_order": "ASC",
+ "title_field": "customer",
+ "track_changes": 1
+}

@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "autoname": "field:model_name",
+ "creation": "2026-09-28 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "model_name",
+  "tank_size_ml",
+  "coverage_area_m2",
+  "coverage_volume_m3",
+  "installation_type",
+  "k_value",
+  "k_spread_pct",
+  "data_quality_note",
+  "section_break_1",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "model_name",
+   "fieldtype": "Data",
+   "label": "Model Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "tank_size_ml",
+   "fieldtype": "Float",
+   "label": "Tank Size (mL)",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "coverage_area_m2",
+   "fieldtype": "Float",
+   "label": "Coverage Area (m²)"
+  },
+  {
+   "fieldname": "coverage_volume_m3",
+   "fieldtype": "Float",
+   "label": "Coverage Volume (m³)"
+  },
+  {
+   "fieldname": "installation_type",
+   "fieldtype": "Select",
+   "label": "Installation Type",
+   "options": "Desktop\nWall-mounted\nHVAC\nOther"
+  },
+  {
+   "fieldname": "k_value",
+   "fieldtype": "Float",
+   "label": "k-value (mL/hr at 100% duty)",
+   "description": "Drives the refill prediction engine. Leave blank if no consumption data available."
+  },
+  {
+   "fieldname": "k_spread_pct",
+   "fieldtype": "Float",
+   "label": "k-value Spread %",
+   "description": "Variance in k-value. Above 0 means k-value is unreliable — a warning will display on placements using this device."
+  },
+  {
+   "fieldname": "data_quality_note",
+   "fieldtype": "Small Text",
+   "label": "Data Quality Warning",
+   "description": "Shown on any placement using this device if k-value is missing or unreliable."
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-28 00:00:00",
+ "modified_by": "Administrator",
+ "module": "Aroma Device",
+ "name": "Aroma Device",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Sales User"
+  }
+ ],
+ "sort_field": "model_name",
+ "sort_order": "ASC",
+ "title_field": "model_name",
+ "track_changes": 1
+}
